@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Dosis', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background-image: url("mount.jpg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-border {
+    border: solid white 1px;
+    padding: 3px;
+    border-radius: 10px;
+    filter: drop-shadow(0px 0px 0.75rem rgba(2, 2, 2, 0.301));
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 400px;
+    height: 600px;
+}
+
+.outcome-container {
+    position: absolute;
+    top: 40px;
+    width: 360px;
+    height: 65px;
+    background-color: rgb(145, 255, 231);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0px 0px 0.55rem rgba(0, 0, 0, 0.329);
+    font-size: 30px;
+    text-shadow: 2px 2px 1px rgba(2, 2, 2, 0.301);
+}
+
+.buttons-container {
+    border-top: 125px solid rgb(248, 158, 208);
+    border-left: 20px solid rgb(248, 158, 208);
+    border-right: 20px solid rgb(248, 158, 208);
+    border-bottom: 30px solid rgb(248, 158, 208);
+    border-radius: 5px;
+    width: 400px;
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
+    background-image: url("snow.png");
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+.buttons-container::after {
+    border-radius: 5px;
+}
+
+.btn {
+    width: 85px;
+    border: none;
+    background: none;
+    font-size: 50px;
+    text-align: center;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.233);
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 5px;
+}
+
+#equals {
+    flex: auto;
+    background-color: rgb(145, 255, 231);
+    border-radius: 0px;
+    text-align: center;
+}
+
+#equals:hover {
+    background-color: rgb(0, 255, 204);
+}
