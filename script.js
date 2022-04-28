@@ -14,8 +14,16 @@ function divide(a, b) {
     return a / b;
 }
 
+function moveDecimalToLeft(a) {
+    return (Math.round(a * 100) / 100) / 100;
+}
+
+function round(a) {
+    return parseFloat(a.toFixed(2));
+}
+
 function calculate(myFunc, a, b) {
-    return myFunc(a, b);
+    return round(myFunc(a, b));
 }
 
 const displayBox = document.querySelector(".outcome-container");
@@ -24,6 +32,7 @@ const defaultDisplay = displayBox.textContent;
 const numberBtns = document.querySelectorAll(".number");
 const decimalBtn = document.querySelector("#decimal");
 const clearBtn = document.querySelector("#clear");
+const deleteBtn = document.querySelector("#delete");
 const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector("#equals");
 
@@ -48,6 +57,10 @@ decimalBtn.addEventListener("click", () => {
 clearBtn.addEventListener("click", () => {
     displayBox.textContent = "";
     firstNumber = "";
+});
+
+deleteBtn.addEventListener("click", () => {
+
 });
 
 operatorBtns.forEach(btn => {
