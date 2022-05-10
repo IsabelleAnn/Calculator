@@ -40,8 +40,10 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: inset 0px 0px 0.55rem rgb(19, 190, 153);
-    font-size: 35px;
+    font-size: 25px;
+    letter-spacing: 2px;
     overflow: hidden;
+    white-space: nowrap;
     padding: 10px;
 }
 

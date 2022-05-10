@@ -15,23 +15,27 @@ function divide(a, b) {
 }
 
 function percentToDecimal(num) {
-    return (Math.round(num * 100) / 100) / 100;
+    return (num / 100);
 }
 
 function round(num) {
-
-    let string = num.toString();
-    return parseFloat(num).toFixed(string.length - 1);
+    // let string = num.toString();
+    // let result = "";
+    // result = parseFloat(num).toFixed(15);
+    // if (string.length > 15) {
+    //     result = parseFloat(num).toFixed(15);
+    // } else {
+    //     result = parseFloat(num).toFixed(string.length - 1);
+    // }
+    return num;
 }
 
 function calculate(myFunc, a, b) {
-
-    console.log(myFunc, a, b);
     return round(parseFloat(myFunc(a, b)));
 }
 
 function checkLength(num) {
-    return num < 18;
+    return num < 15;
 }
 
 function switchSign(num) {
@@ -39,7 +43,6 @@ function switchSign(num) {
 }
 
 const displayBox = document.querySelector("#outcome-container");
-
 const numberBtns = document.querySelectorAll(".number");
 const signBtn = document.querySelector("#pos-neg");
 const decimalBtn = document.querySelector("#decimal");
@@ -48,8 +51,6 @@ const deleteBtn = document.querySelector("#delete");
 const percentBtn = document.querySelector("#percent");
 const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector("#equals");
-
-
 let prevInput = "";
 let currentInput = "";
 let decimalPressed = false;
@@ -58,17 +59,21 @@ let equalsPressed = false;
 
 numberBtns.forEach(btn => {
     btn.addEventListener("click", () => {
+
         if (operatorPressed) {
-            currentInput += btn.textContent;
             if (checkLength(currentInput.length)) {
+                currentInput += btn.textContent;
                 displayBox.textContent = currentInput;
+                console.log(currentInput);
             }
         } else {
-            prevInput += btn.textContent;
             if (checkLength(prevInput.length)) {
+                prevInput += btn.textContent;
                 displayBox.textContent = prevInput;
+
             }
         }
+        console.log(prevInput, "length", prevInput.length, currentInput, "length", currentInput.length);
     });
 });
 
@@ -131,26 +136,36 @@ deleteBtn.addEventListener("click", () => {
 
 percentBtn.addEventListener("click", () => {
     if (operatorPressed) {
-        currentInput = percentToDecimal(currentInput);
-        currentInput = currentInput.toString();
-        displayBox.textContent = currentInput;
+        if (currentInput) {
+            console.log(currentInput);
+            currentInput = percentToDecimal(currentInput);
+            currentInput = currentInput.toString();
+            displayBox.textContent = currentInput;
+        }
+
     } else {
-        prevInput = percentToDecimal(prevInput);
-        prevInput = prevInput.toString();
-        displayBox.textContent = prevInput;
+        if (prevInput) {
+            console.log(prevInput);
+            prevInput = percentToDecimal(prevInput);
+            prevInput = prevInput.toString();
+            displayBox.textContent = prevInput;
+        }
+
     }
     decimalPressed = true;
+    console.log("prev", prevInput, "current", currentInput, displayBox.textContent, operatorPressed);
 });
 
 let chosenOperator;
 let outcome;
-
+console.log(parseFloat("0.0"));
 operatorBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         operatorPressed = true;
         decimalPressed = false;
         equalsPressed = false;
-        if (parseInt(currentInput) === 0 && chosenOperator === divide) {
+        if ((parseFloat(currentInput) === "0") && chosenOperator === divide) {
+            console.log(currentInput);
             displayBox.textContent = "Can't do that!";
             currentInput = "";
             prevInput = "";
@@ -170,19 +185,15 @@ operatorBtns.forEach(btn => {
         switch (btn.textContent) {
             case "x":
                 chosenOperator = multiply;
-                console.log("mult", btn.textContent);
                 break;
             case "÷":
                 chosenOperator = divide;
-                console.log("divide", btn.textContent);
                 break;
             case "-":
                 chosenOperator = subtract;
-                console.log("subtract", btn.textContent);
                 break;
             case "+":
                 chosenOperator = add;
-                console.log("add", btn.textContent);
                 break;
         }
         if (currentInput !== "") {
@@ -195,7 +206,7 @@ operatorBtns.forEach(btn => {
 equalsBtn.addEventListener("click", () => {
     equalsPressed = true;
     operatorPressed = false;
-    if (parseInt(currentInput) === 0 && chosenOperator === divide) {
+    if ((parseFloat(currentInput) === "0") && chosenOperator === divide) {
         displayBox.textContent = "Can't do that!";
         currentInput = "";
         prevInput = "";
