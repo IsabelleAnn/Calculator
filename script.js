@@ -42,7 +42,8 @@ function switchSign(num) {
     return num * (-1);
 }
 
-const displayBox = document.querySelector("#outcome-container");
+const displayBox = document.querySelector("#outcome");
+const inputHistory = document.querySelector("#input-history");
 const numberBtns = document.querySelectorAll(".number");
 const signBtn = document.querySelector("#pos-neg");
 const decimalBtn = document.querySelector("#decimal");
@@ -116,6 +117,7 @@ clearBtn.addEventListener("click", () => {
     decimalPressed = false;
     operatorPressed = false;
     equalsPressed = false;
+    inputHistory.textContent = "";
 });
 
 let deleted = "";
@@ -158,6 +160,7 @@ percentBtn.addEventListener("click", () => {
 
 let chosenOperator;
 let outcome;
+let operatorStr = "";
 console.log(parseFloat("0.0"));
 operatorBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -182,8 +185,10 @@ operatorBtns.forEach(btn => {
             displayBox.textContent = outcome;
             currentInput = "";
         }
+
         switch (btn.textContent) {
             case "x":
+
                 chosenOperator = multiply;
                 break;
             case "÷":
@@ -196,6 +201,7 @@ operatorBtns.forEach(btn => {
                 chosenOperator = add;
                 break;
         }
+        operatorStr = btn.textContent;
         if (currentInput !== "") {
             prevInput = currentInput;
             currentInput = "";
@@ -204,6 +210,7 @@ operatorBtns.forEach(btn => {
 }, );
 
 equalsBtn.addEventListener("click", () => {
+    inputHistory.textContent = `${prevInput} ${operatorStr} ${currentInput} =`;
     equalsPressed = true;
     operatorPressed = false;
     if ((parseFloat(currentInput) === "0") && chosenOperator === divide) {
@@ -215,6 +222,7 @@ equalsBtn.addEventListener("click", () => {
     if (prevInput !== "" && currentInput !== "") {
         outcome = Number(parseFloat(calculate(chosenOperator, Number(prevInput), Number(currentInput))));
         displayBox.textContent = outcome;
+
     }
     prevInput = outcome;
     currentInput = "";
