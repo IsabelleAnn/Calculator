@@ -17,25 +17,38 @@ let initialized = false;
 let chosenOperator;
 let outcome;
 let operatorStr = "";
+let keyName = "";
+const validNums = /[0-9]/;
+const validOps = /[/*+-]/;
 
 numberBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-        initialized = true;
-        if (operatorPressed) {
-            if (checkLength(currentInput.length)) {
-                currentInput += btn.textContent;
-                displayBox.textContent = currentInput;
-            }
-        } else {
-            if (checkLength(prevInput.length)) {
-                prevInput += btn.textContent;
-                displayBox.textContent = prevInput;
-            }
-        }
+        numberInput(btn.textContent);
     });
 });
 
-signBtn.addEventListener("click", () => {
+function numberInput(element) {
+    initialized = true;
+    if (operatorPressed) {
+        if (checkLength(currentInput.length)) {
+            if ((element === "0" && currentInput.length > 0) || (element !== "0")) {
+                currentInput += element;
+                displayBox.textContent = currentInput;
+            }
+        }
+    } else {
+        if (checkLength(prevInput.length)) {
+            if ((element === "0" && prevInput.length > 0) || (element !== "0")) {
+                prevInput += element;
+                displayBox.textContent = prevInput;
+            }
+        }
+    }
+}
+
+signBtn.addEventListener("click", signInput);
+
+function signInput() {
     if (operatorPressed) {
         currentInput = switchSign(currentInput);
         displayBox.textContent = currentInput;
@@ -43,9 +56,11 @@ signBtn.addEventListener("click", () => {
         prevInput = switchSign(prevInput);
         displayBox.textContent = prevInput;
     }
-});
+}
 
-decimalBtn.addEventListener("click", () => {
+decimalBtn.addEventListener("click", decimalInput);
+
+function decimalInput() {
     if (!decimalPressed) {
         if (operatorPressed) {
             if (currentInput === "") {
@@ -64,9 +79,11 @@ decimalBtn.addEventListener("click", () => {
         }
     }
     decimalPressed = true;
-});
+}
 
-clearBtn.addEventListener("click", () => {
+clearBtn.addEventListener("click", clearInput);
+
+function clearInput() {
     initialized = false;
     displayBox.textContent = "";
     prevInput = "";
@@ -76,10 +93,12 @@ clearBtn.addEventListener("click", () => {
     operatorPressed = false;
     equalsPressed = false;
     inputHistory.textContent = "";
-});
+}
 
 let deleted = "";
-deleteBtn.addEventListener("click", () => {
+deleteBtn.addEventListener("click", deleteInput);
+
+function deleteInput() {
     if (operatorPressed) {
         currentInput = currentInput.toString();
         deleted = currentInput.slice(-1);
@@ -97,9 +116,11 @@ deleteBtn.addEventListener("click", () => {
     if (prevInput === "") {
         initialized = false;
     }
-});
+}
 
-percentBtn.addEventListener("click", () => {
+percentBtn.addEventListener("click", percentInput);
+
+function percentInput() {
     if (operatorPressed) {
         if (currentInput) {
             currentInput = percentToDecimal(currentInput);
@@ -114,55 +135,62 @@ percentBtn.addEventListener("click", () => {
         }
     }
     decimalPressed = true;
-});
+}
 
 operatorBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-        if (initialized) {
-            operatorPressed = true;
-            decimalPressed = false;
-            equalsPressed = false;
-            if ((parseFloat(currentInput) === 0) && chosenOperator === divide) {
-                displayBox.textContent = "Can't do that!";
-                currentInput = "";
-                inputHistory.textContent = "";
-            }
-            if (currentInput !== "" && prevInput !== "") {
-                outcome = Number(parseFloat(calculate(chosenOperator, Number(prevInput), Number(currentInput))));
-                displayBox.textContent = outcome;
-                currentInput = outcome;
-            }
-            if (prevInput === "" && outcome !== "") {
-                currentInput = outcome;
-                outcome = Number(parseFloat(calculate(chosenOperator, Number(prevInput), Number(currentInput))));
-                displayBox.textContent = outcome;
-                currentInput = "";
-            }
-            switch (btn.textContent) {
-                case "x":
-                    chosenOperator = multiply;
-                    break;
-                case "÷":
-                    chosenOperator = divide;
-                    break;
-                case "-":
-                    chosenOperator = subtract;
-                    break;
-                case "+":
-                    chosenOperator = add;
-                    break;
-            }
-            operatorStr = btn.textContent;
-            if (currentInput !== "") {
-                prevInput = currentInput;
-                currentInput = "";
-            }
-            inputHistory.textContent = `${prevInput} ${operatorStr}`;
-        }
+        operatorInput(btn.textContent);
     });
-}, );
+});
 
-equalsBtn.addEventListener("click", () => {
+function operatorInput(element) {
+    if (initialized) {
+        operatorPressed = true;
+        decimalPressed = false;
+        equalsPressed = false;
+        if ((parseFloat(currentInput) === 0) && chosenOperator === divide) {
+            displayBox.textContent = "Can't do that!";
+            currentInput = "";
+            inputHistory.textContent = "";
+        }
+        if (currentInput !== "" && prevInput !== "") {
+            outcome = Number(parseFloat(calculate(chosenOperator, Number(prevInput), Number(currentInput))));
+            displayBox.textContent = outcome;
+            currentInput = outcome;
+        }
+        if (prevInput === "" && outcome !== "") {
+            currentInput = outcome;
+            outcome = Number(parseFloat(calculate(chosenOperator, Number(prevInput), Number(currentInput))));
+            displayBox.textContent = outcome;
+            currentInput = "";
+        }
+        switch (element) {
+            case "x":
+                chosenOperator = multiply;
+                break;
+            case "÷":
+            case "/":
+                chosenOperator = divide;
+                break;
+            case "-":
+                chosenOperator = subtract;
+                break;
+            case "+":
+                chosenOperator = add;
+                break;
+        }
+        operatorStr = element;
+        if (currentInput !== "") {
+            prevInput = currentInput;
+            currentInput = "";
+        }
+        inputHistory.textContent = `${prevInput} ${operatorStr}`;
+    }
+}
+
+equalsBtn.addEventListener("click", equalsInput);
+
+function equalsInput() {
     if (initialized && currentInput !== "") {
         inputHistory.textContent = `${prevInput} ${operatorStr} ${currentInput} =`;
         equalsPressed = true;
@@ -178,6 +206,34 @@ equalsBtn.addEventListener("click", () => {
         }
         prevInput = outcome;
         currentInput = "";
+    }
+}
+
+document.addEventListener("keydown", (event) => {
+    keyName = event.key;
+    //number
+    if (validNums.test(keyName)) {
+        numberInput(keyName);
+    }
+    //decimal
+    if (keyName === ".") {
+        decimalInput();
+    }
+    //delete
+    if (keyName === 'Delete' || keyName === "Backspace") {
+        deleteInput();
+    }
+    //percent
+    if (keyName === "%") {
+        percentInput();
+    }
+    //ops
+    if (validOps.test(keyName)) {
+        operatorInput(keyName);
+    }
+    //equals
+    if (keyName === "=" || keyName === "Enter") {
+        equalsInput();
     }
 });
 
