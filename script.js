@@ -18,8 +18,36 @@ let chosenOperator;
 let outcome;
 let operatorStr = "";
 let keyName = "";
-const validNums = /[0-9]/;
-const validOps = /[/*+-]/;
+const validNums = /^\d$/;
+const validOps = /^[/*+-]$/;
+
+document.addEventListener("keyup", (event) => {
+    keyName = event.key;
+    //number
+    if (validNums.test(keyName)) {
+        numberInput(keyName);
+    }
+    //decimal
+    if (keyName === ".") {
+        decimalInput();
+    }
+    //delete
+    if (keyName === 'Delete' || keyName === "Backspace") {
+        deleteInput();
+    }
+    //percent
+    if (keyName === "%") {
+        percentInput();
+    }
+    //ops
+    if (validOps.test(keyName)) {
+        operatorInput(keyName);
+    }
+    //equals
+    if (keyName === "=" || keyName === "Enter") {
+        equalsInput();
+    }
+});
 
 numberBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -31,17 +59,21 @@ function numberInput(element) {
     initialized = true;
     if (operatorPressed) {
         if (checkLength(currentInput.length)) {
-            if ((element === "0" && currentInput.length > 0) || (element !== "0")) {
+            if (currentInput.charAt(0) === "0" && currentInput.length === 1) {
+                currentInput = element;
+            } else {
                 currentInput += element;
-                displayBox.textContent = currentInput;
             }
+            displayBox.textContent = currentInput;
         }
     } else {
         if (checkLength(prevInput.length)) {
-            if ((element === "0" && prevInput.length > 0) || (element !== "0")) {
+            if (prevInput.charAt(0) === "0" && prevInput.length === 1) {
+                prevInput = element;
+            } else {
                 prevInput += element;
-                displayBox.textContent = prevInput;
             }
+            displayBox.textContent = prevInput;
         }
     }
 }
@@ -195,11 +227,7 @@ function equalsInput() {
         inputHistory.textContent = `${prevInput} ${operatorStr} ${currentInput} =`;
         equalsPressed = true;
         operatorPressed = false;
-        if ((parseFloat(currentInput) === 0) && chosenOperator === divide) {
-            displayBox.textContent = "Can't do that!";
-            currentInput = "";
-            inputHistory.textContent = "";
-        }
+        checkDividedByZero();
         if (prevInput !== "" && currentInput !== "") {
             outcome = Number(parseFloat(calculate(chosenOperator, Number(prevInput), Number(currentInput))));
             displayBox.textContent = outcome;
@@ -209,33 +237,18 @@ function equalsInput() {
     }
 }
 
-document.addEventListener("keydown", (event) => {
-    keyName = event.key;
-    //number
-    if (validNums.test(keyName)) {
-        numberInput(keyName);
+function checkDividedByZero() {
+    if ((parseFloat(currentInput) === 0) && chosenOperator === divide) {
+        displayBox.textContent = "Can't do that!";
+        currentInput = "";
+        outcome = prevInput;
+        if (equalsPressed) {
+            outcome = "";
+            initialized = false;
+        }
+        inputHistory.textContent = "";
     }
-    //decimal
-    if (keyName === ".") {
-        decimalInput();
-    }
-    //delete
-    if (keyName === 'Delete' || keyName === "Backspace") {
-        deleteInput();
-    }
-    //percent
-    if (keyName === "%") {
-        percentInput();
-    }
-    //ops
-    if (validOps.test(keyName)) {
-        operatorInput(keyName);
-    }
-    //equals
-    if (keyName === "=" || keyName === "Enter") {
-        equalsInput();
-    }
-});
+}
 
 function add(a, b) {
     return a + b;

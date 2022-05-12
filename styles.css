@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Dosis', sans-serif;
 }
 
 body {
@@ -13,10 +12,52 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-family: 'Dosis', sans-serif;
+}
+
+button {
+    font-family: inherit;
+}
+
+header {
+    padding: 20px;
+    z-index: 1;
+}
+
+#quote-container {
+    display: flex;
+    padding: 35px 0px 10px 35px;
+    color: white;
+    text-shadow: 2px 2px rgb(71, 38, 69);
+    font-family: 'Macondo', cursive;
+    font-size: 20px;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+h2 {
+    color: rgb(65, 35, 62);
+    text-align: right;
+    padding-right: 20px;
+}
+
+.fa-quote-left,
+.fa-quote-right {
+    font-size: 20px;
+}
+
+.fa-quote-left {
+    padding-right: 20px;
+}
+
+.fa-quote-right {
+    padding-left: 20px;
 }
 
 #container-border {
-    margin-top: 100px;
+    font-family: 'Dosis', sans-serif;
     border: solid white 1px;
     padding: 3px;
     border-radius: 10px;
@@ -28,9 +69,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url("snow.png");
-    background-position: center;
-    background-repeat: repeat;
 }
 
 #outcome-container {
@@ -41,7 +79,7 @@ body {
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    box-shadow: inset 0px 0px 0.55rem rgb(19, 190, 153);
+    box-shadow: inset 0px 0px 0.85rem rgb(19, 190, 153);
     font-size: 25px;
     letter-spacing: 2px;
     background-color: rgb(145, 255, 231);
@@ -118,6 +156,17 @@ i {
 
 #pos-neg {
     font-size: 35px;
+}
+
+#img-wrapper {
+    position: absolute;
+    background-position: center;
+    z-index: 0;
+    background-repeat: repeat;
+    background-image: url("snow.png");
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.6;
 }
 
 #footer {
