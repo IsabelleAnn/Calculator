@@ -21,6 +21,7 @@ let keyName = "";
 const validNums = /^\d$/;
 const validOps = /^[/*+-]$/;
 
+//Keyboard Support:
 document.addEventListener("keyup", (event) => {
     keyName = event.key;
     //number
@@ -49,6 +50,7 @@ document.addEventListener("keyup", (event) => {
     }
 });
 
+//Numbers Buttons:
 numberBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         numberInput(btn.textContent);
@@ -78,18 +80,32 @@ function numberInput(element) {
     }
 }
 
+function checkLength(num) {
+    return num < 15;
+}
+
+//Sign Switch Button:
 signBtn.addEventListener("click", signInput);
 
 function signInput() {
-    if (operatorPressed) {
-        currentInput = switchSign(currentInput);
-        displayBox.textContent = currentInput;
-    } else {
-        prevInput = switchSign(prevInput);
-        displayBox.textContent = prevInput;
+    if (initialized) {
+        if (operatorPressed) {
+            currentInput = switchSign(currentInput);
+            displayBox.textContent = currentInput;
+        } else {
+            prevInput = switchSign(prevInput);
+            displayBox.textContent = prevInput;
+        }
     }
+
 }
 
+function switchSign(num) {
+    console.log(num, num * (-1));
+    return num * (-1);
+}
+
+//Decimal Button:
 decimalBtn.addEventListener("click", decimalInput);
 
 function decimalInput() {
@@ -113,6 +129,7 @@ function decimalInput() {
     decimalPressed = true;
 }
 
+//Clear All Button:
 clearBtn.addEventListener("click", clearInput);
 
 function clearInput() {
@@ -127,6 +144,7 @@ function clearInput() {
     inputHistory.textContent = "";
 }
 
+//Delete Button:
 let deleted = "";
 deleteBtn.addEventListener("click", deleteInput);
 
@@ -145,30 +163,39 @@ function deleteInput() {
     if (deleted === ".") {
         decimalPressed = false;
     }
-    if (prevInput === "") {
+    if (prevInput === "" || prevInput === "-" || parseInt(prevInput) === 0) {
         initialized = false;
     }
 }
 
+//Percent Button:
 percentBtn.addEventListener("click", percentInput);
 
 function percentInput() {
-    if (operatorPressed) {
-        if (currentInput) {
-            currentInput = percentToDecimal(currentInput);
-            currentInput = currentInput.toString();
-            displayBox.textContent = currentInput;
+    if (initialized) {
+        if (operatorPressed) {
+            if (currentInput) {
+                currentInput = percentToDecimal(currentInput);
+                currentInput = currentInput.toString();
+                displayBox.textContent = currentInput;
+            }
+        } else {
+            if (prevInput) {
+                prevInput = percentToDecimal(prevInput);
+                prevInput = prevInput.toString();
+                displayBox.textContent = prevInput;
+            }
         }
-    } else {
-        if (prevInput) {
-            prevInput = percentToDecimal(prevInput);
-            prevInput = prevInput.toString();
-            displayBox.textContent = prevInput;
-        }
+        decimalPressed = true;
     }
-    decimalPressed = true;
+
 }
 
+function percentToDecimal(num) {
+    return (num / 100);
+}
+
+//Operator Buttons:
 operatorBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         operatorInput(btn.textContent);
@@ -220,6 +247,27 @@ function operatorInput(element) {
     }
 }
 
+function calculate(myFunc, a, b) {
+    return (parseFloat(myFunc(a, b)));
+}
+
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+function divide(a, b) {
+    return a / b;
+}
+
+//Equals Button:
 equalsBtn.addEventListener("click", equalsInput);
 
 function equalsInput() {
@@ -248,37 +296,4 @@ function checkDividedByZero() {
         }
         inputHistory.textContent = "";
     }
-}
-
-function add(a, b) {
-    return a + b;
-}
-
-function subtract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-
-function percentToDecimal(num) {
-    return (num / 100);
-}
-
-
-function calculate(myFunc, a, b) {
-    return (parseFloat(myFunc(a, b)));
-}
-
-function checkLength(num) {
-    return num < 15;
-}
-
-function switchSign(num) {
-    return num * (-1);
 }

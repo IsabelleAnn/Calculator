@@ -5,8 +5,11 @@
 }
 
 body {
-    height: 100vh;
+    min-height: 100vh;
     background-image: url("mount.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -20,17 +23,19 @@ button {
 }
 
 header {
-    padding: 20px;
+    line-height: 1.6;
+    padding: 3vh;
     z-index: 1;
 }
 
 #quote-container {
     display: flex;
-    padding: 35px 0px 10px 35px;
+    /* padding: 35px 0px 10px 35px; */
     color: white;
     text-shadow: 2px 2px rgb(71, 38, 69);
-    font-family: 'Macondo', cursive;
+    font-family: 'Bad Script', cursive;
     font-size: 20px;
+    font-weight: normal;
 }
 
 h1 {
@@ -39,8 +44,9 @@ h1 {
 
 h2 {
     color: rgb(65, 35, 62);
+    text-shadow: 1px 1px rgb(255, 255, 255);
     text-align: right;
-    padding-right: 20px;
+    /* padding-right: 15px; */
 }
 
 .fa-quote-left,
@@ -49,11 +55,11 @@ h2 {
 }
 
 .fa-quote-left {
-    padding-right: 20px;
+    padding-right: 2px;
 }
 
 .fa-quote-right {
-    padding-left: 20px;
+    padding-left: 2px;
 }
 
 #container-border {
@@ -62,6 +68,8 @@ h2 {
     padding: 3px;
     border-radius: 10px;
     filter: drop-shadow(0px 0px 0.75rem rgba(2, 2, 2, 0.301));
+    background-image: url("snow.png");
+    box-shadow: 0 0 70px rgba(0, 0, 0, 0.479);
 }
 
 #container {
@@ -95,7 +103,6 @@ h2 {
 
 #outcome {
     word-break: break-all;
-    font-family: 'Orbitron', sans-serif;
 }
 
 #input-history {
@@ -159,20 +166,20 @@ i {
     font-size: 35px;
 }
 
-#img-wrapper {
+
+/* #img-wrapper {
     position: absolute;
     background-position: center;
     z-index: 0;
     background-repeat: repeat;
-    background-image: url("snow.png");
     width: 100vw;
     height: 100vh;
     opacity: 0.6;
-}
+} */
 
 #footer {
     font-size: 15px;
     color: white;
-    margin-top: auto;
-    padding-bottom: 10px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
