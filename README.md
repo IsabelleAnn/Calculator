@@ -10,5 +10,12 @@ Part of The Odin Project Curriculum
   * HTML
 
   * CSS
+  
+## Tools:
+  * Visual Studio Code
+  
+  * Ubuntu Linux on VirtualBox
+  
+  * git + Github
 
 
